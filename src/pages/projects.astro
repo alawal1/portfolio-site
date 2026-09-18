@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+  {
+    title: 'Project One',
+    description: 'A short one-line description of what this project does.',
+    url: 'https://github.com/alawal1/project-one',
+  },
+  {
+    title: 'Project Two',
+    description: 'A short one-line description of what this project does.',
+    url: 'https://github.com/alawal1/project-two',
+  },
+  {
+    title: 'Project Three',
+    description: 'A short one-line description of what this project does.',
+    url: 'https://github.com/alawal1/project-three',
+  },
+];
+---
+<Layout title="Projects">
+  <h1>Projects</h1>
+  <ul>
+    {projects.map((project) => (
+      <li>
+        <h2><a href={project.url}>{project.title}</a></h2>
+        <p>{project.description}</p>
+      </li>
+    ))}
+  </ul>
+</Layout>
