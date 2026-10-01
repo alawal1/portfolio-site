@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Job Fit Agent — Automated Job Posting Triage">
+  <article>
+    <h1>Job Fit Agent — Automated Job Posting Triage</h1>
+    <p><em>A Python agent that decides whether a job posting is worth applying to — using OpenAI tool-calling, structured outputs, and an honest profile.</em></p>
+
+    <h2>The problem</h2>
+    <p>Job hunting at scale means reading dozens of postings, most of which are obvious mismatches. The expensive part isn't finding postings — it's the 10 minutes spent reading each one only to realize the seniority is wrong or the tooling is a hard requirement you don't meet. I wanted a system that would read a posting and give me a defensible verdict: apply, borderline, or skip.</p>
+
+    <h2>What it does</h2>
+    <p>Given a job URL or pasted job description, the agent:</p>
+    <ol>
+      <li><strong>Fetches and extracts</strong> the posting's triage-relevant signals — title, location, languages, seniority, and required vs. preferred skills.</li>
+      <li><strong>Applies hard filters</strong> (language requirements, seniority thresholds) before spending any judgment on soft fit.</li>
+      <li><strong>Assesses fit</strong> against a structured candidate profile, returning a verdict, confidence level, and reasons.</li>
+      <li><strong>Generates CV recommendations</strong> tailored to the specific posting when the verdict is apply or borderline.</li>
+    </ol>
+
+    <h2>How it works</h2>
+    <p>The agent runs a custom OpenAI tool-calling loop (no LangChain). Each tool — fetch, extract, filter, assess, suggest — is a Python function with a strict JSON schema. The orchestration enforces a required sequence: filters must pass before assessment runs, and assessment must run before CV suggestions. The LLM decides <em>what to do next</em>; deterministic code decides <em>what is allowed</em>.</p>
+
+    <h2>Design decisions worth noting</h2>
+
+    <h3>Judgment goes to the LLM; classification goes to code.</h3>
+    <p>Not every step benefits from a language model. Deciding whether "some analytics exposure" is a real gap for this candidate is a judgment call — that's the LLM's job. Deciding whether "communication" is a soft skill is mechanical — that belongs in Python. Mixing the two produces inconsistent verdicts on identical inputs.</p>
+
+    <h3>The profile is the source of truth — and it has to be honest.</h3>
+    <p>An early version gave a "high confidence apply" verdict on a role that was actually a clear skip. The bug wasn't in the prompt: the profile data overstated the candidate's SQL level. The agent believed the flattering version. Fixing the input — not the prompt — corrected the verdict. An agent is only as good as the honesty of its inputs.</p>
+
+    <h3>Structured outputs, not free text.</h3>
+    <p>Every tool returns a JSON object against a fixed schema. The verdict is an enum, not a sentence. This makes the agent debuggable: when a verdict is wrong, I can inspect the signals and see whether the reasoning was bad or the input was.</p>
+
+    <h2>Stack</h2>
+    <p>Python · FastAPI · OpenAI gpt-4o (tool-calling + JSON mode) · BeautifulSoup · vanilla HTML/CSS/JS frontend · <code>ThreadPoolExecutor</code> for batch processing.</p>
+
+    <h2>Status</h2>
+    <p>Working prototype, evaluated against manually scored postings. Currently iterating on the signal extraction layer to better distinguish required vs. preferred vs. soft skills.</p>
+
+    <p><a href="https://github.com/alawal1/job-fit-agent">View the code on GitHub →</a></p>
+
+    <p><a href={`${import.meta.env.BASE_URL}projects`}>← Back to all projects</a></p>
+  </article>
+</Layout>
