@@ -1,0 +1,58 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Job Fit Agent — Design Decisions">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/job-fit-agent`}>Job Fit Agent</a></p>
+      <h1>Design decisions</h1>
+
+      <nav class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/learnings`} class="btn">Learnings</a>
+        <span class="btn current">Design decisions</span>
+        <a href="https://github.com/alawal1/job-fit-agent" class="btn">⌥ Code</a>
+      </nav>
+    </header>
+
+    <section>
+      <h3>Judgment goes to the LLM; classification goes to code.</h3>
+      <p>Deciding whether "some analytics exposure" is a real gap is a judgment call — that's the LLM's job. Deciding whether "communication" is a soft skill is mechanical — that belongs in Python. Mixing the two produces inconsistent verdicts on identical inputs.</p>
+
+      <h3>The profile is the source of truth — and it has to be honest.</h3>
+      <p>An early version gave a "high confidence apply" verdict on a role that was actually a clear skip. The bug wasn't in the prompt — it was in the profile data. The agent believed the flattering version. See <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/learnings`}>Learnings</a> for the full story.</p>
+
+      <h3>Structured outputs, not free text.</h3>
+      <p>Every tool returns a JSON object against a fixed schema. The verdict is an enum, not a sentence. This makes the agent debuggable: when a verdict is wrong, I can inspect the signals and see whether the reasoning was bad or the input was.</p>
+
+      <h3>Filters before judgment.</h3>
+      <p>Hard filters (language, seniority) run before any soft-fit assessment. There's no point asking the LLM to weigh trade-offs on a job that fails a hard constraint — and doing so wastes tokens and invites hallucinated reasoning.</p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+  .hero { text-align: center; margin: 3rem 0 3rem; }
+  .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
+  .crumb a { text-decoration: none; }
+  .hero h1 { font-size: 2rem; margin: 0 0 1.75rem; letter-spacing: -0.02em; }
+  .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 1.1rem; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: rgba(255, 255, 255, 0.18); }
+  .btn.current {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+  section { margin: 2rem 0 4rem; }
+  section h3 { font-size: 1.05rem; margin: 1.75rem 0 0.5rem; }
+  section h3:first-child { margin-top: 0; }
+  section p { margin: 0.5rem 0; }
+</style>

@@ -1,0 +1,54 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Job Fit Agent — Learnings">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/job-fit-agent`}>Job Fit Agent</a></p>
+      <h1>Learnings</h1>
+
+      <nav class="actions">
+        <span class="btn current">Learnings</span>
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/design-decisions`} class="btn">Design decisions</a>
+        <a href="https://github.com/alawal1/job-fit-agent" class="btn">⌥ Code</a>
+      </nav>
+    </header>
+
+    <section>
+      <p>The agent's first version was confidently wrong. On a Solutions Engineer posting at a data company, it returned <strong>apply / high confidence</strong>. I'd normally skip that role: it asks for hands-on experience with BigQuery, Snowflake, and dbt — none of which I have.</p>
+
+      <p>The instinct was to rewrite the prompt. That would have been the wrong fix.</p>
+
+      <p>The actual bug was upstream. The agent reads its view of me from two files: <code>profile.json</code> and a set of markdown documents. The JSON listed <em>SQL: intermediate</em>. The markdown said <em>SQL: coursework level, not used professionally</em>. The agent saw both, split the difference, and reported SQL as one of my strengths. The prompt wasn't the problem. The profile was lying to the agent — and the agent believed the flattering version.</p>
+
+      <p>The fix: make the markdown the single source of truth, correct the SQL level in <code>profile.json</code>. No prompt changes. The next run on the same posting returned <strong>skip / high confidence</strong>, with the same reasoning a human reviewer gave.</p>
+
+      <p><strong>The lesson:</strong> an agent is only as good as the honesty of its inputs. Non-deterministic systems will amplify whatever bias you hand them. The most valuable debugging skill isn't reading the model's output — it's auditing the data the model was given.</p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+  .hero { text-align: center; margin: 3rem 0 3rem; }
+  .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
+  .crumb a { text-decoration: none; }
+  .hero h1 { font-size: 2rem; margin: 0 0 1.75rem; letter-spacing: -0.02em; }
+  .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 1.1rem; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: rgba(255, 255, 255, 0.18); }
+  .btn.current {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+  section { margin: 2rem 0 4rem; }
+  section p { margin: 0.9rem 0; }
+</style>

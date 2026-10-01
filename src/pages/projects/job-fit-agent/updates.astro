@@ -1,0 +1,73 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const updates = [
+  {
+    date: '2026-10-01',
+    title: 'Human confirmation before tracker writes',
+    body: 'The agent will not write to the application tracker directly. It returns a pre-filled row and the UI waits for confirmation. Reason: a wrong verdict should not silently pollute tracking data.',
+  },
+  {
+    date: '2026-10-01',
+    title: 'Split required / preferred / soft skills',
+    body: 'Replaced the flat key_skills_mentioned list in extract_signals.py. The agent now distinguishes hard requirements from nice-to-haves and from soft skills, so a missing "communication" line no longer weighs the same as a missing "Snowflake".',
+  },
+  {
+    date: '2026-09-28',
+    title: 'Fixed the honesty bug in the profile',
+    body: 'The agent was reporting SQL as a strength because profile.json and skills.md disagreed. Made the markdown files the single source of truth and corrected the SQL level. Verdicts on the same posting flipped from apply/high to skip/high. Full story on the Learnings page.',
+  },
+  {
+    date: '2026-09-22',
+    title: 'v2: triage instead of scoring',
+    body: 'Replaced the v1 fit-score pipeline with a triage agent that returns apply / borderline / skip plus structured reasoning. Scoring produced a number without explaining it; triage forces a decision and a reason.',
+  },
+];
+---
+<Layout title="Job Fit Agent — Updates">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/job-fit-agent`}>Job Fit Agent</a></p>
+      <h1>Updates</h1>
+
+      <nav class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/learnings`} class="btn">Learnings</a>
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/design-decisions`} class="btn">Design decisions</a>
+        <a href="https://github.com/alawal1/job-fit-agent" class="btn">⌥ Code</a>
+      </nav>
+    </header>
+
+    <section>
+      {updates.map((u) => (
+        <div class="update">
+          <p class="date">{u.date}</p>
+          <h3>{u.title}</h3>
+          <p>{u.body}</p>
+        </div>
+      ))}
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+  .hero { text-align: center; margin: 3rem 0 3rem; }
+  .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
+  .crumb a { text-decoration: none; }
+  .hero h1 { font-size: 2rem; margin: 0 0 1.75rem; letter-spacing: -0.02em; }
+  .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 1.1rem; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: rgba(255, 255, 255, 0.18); }
+  section { margin: 2rem 0 4rem; }
+  .update { margin-bottom: 2.5rem; }
+  .update h3 { font-size: 1.05rem; margin: 0.25rem 0 0.5rem; }
+  .update p { margin: 0.4rem 0; }
+  .date { font-size: 0.85rem; opacity: 0.5; margin: 0; font-variant-numeric: tabular-nums; }
+</style>
