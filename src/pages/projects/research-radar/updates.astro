@@ -1,0 +1,94 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<Layout title="AI Research Radar — Updates">
+  <main class="project">
+    <header class="hero">
+      <p class="crumb"><a href={BASE_URL + 'projects/research-radar'}>AI Research Radar</a></p>
+      <h1>Updates</h1>
+      <nav class="actions">
+        <a class="btn" href={BASE_URL + 'projects/research-radar/learnings'}>Learnings</a>
+        <a class="btn" href={BASE_URL + 'projects/research-radar/design-decisions'}>Design decisions</a>
+        <a class="btn" href="https://github.com/alawal1/research-radar" target="_blank" rel="noopener">⌥ Code</a>
+      </nav>
+      <p class="crumb" style="margin-top: 1rem;">
+        <a href={BASE_URL + 'projects/research-radar'}>← Back to project</a>
+      </p>
+    </header>
+
+    <section>
+      <h3>2026-10-02 — Deployed to GitHub Actions</h3>
+      <p>
+        Added a weekly cron so the agent runs on its own every Monday. Without this, the
+        agent was a script I had to trigger manually — the whole point of a weekly digest
+        is that it arrives without me pressing a button.
+      </p>
+
+      <h3>2026-10-02 — Digest delivery via committed markdown</h3>
+      <p>
+        Moved the digest from the Actions log to <code>data/digests/YYYY-MM-DD.md</code>,
+        committed to the repo each week. I tried Google Docs delivery first, but service
+        accounts can't create files in personal Drives, and OAuth for a personal Gmail is
+        more work than the feature is worth. Markdown files are readable, permanent, and
+        zero-auth.
+      </p>
+
+      <h3>2026-10-02 — Split CSV sync from the agent</h3>
+      <p>
+        Moved Google Sheets writes out of the agent and into a separate local script
+        (<code>sync_to_sheet.py</code>). The cloud version kept hitting a 404 with
+        credentials that worked locally. Rather than fight it, the agent always writes CSV,
+        and the local machine syncs to Sheets on demand.
+      </p>
+
+      <h3>2026-10-01 — Tightened Gate 1</h3>
+      <p>
+        Rejected education and institutional AI governance papers after a test run showed
+        them dominating the digest. The prompt now requires governance to be the primary
+        contribution, not a secondary angle — and rejects academic-sector governance as a
+        separate field from corporate and regulatory governance.
+      </p>
+
+      <h3>2026-10-01 — Added dedupe by title</h3>
+      <p>
+        Same papers were appearing twice with different OpenAlex IDs (once on arXiv, once
+        on Zenodo). Added a normalization step: lowercase, strip punctuation, keep the
+        first occurrence. The digest no longer repeats itself.
+      </p>
+
+      <h3>2026-09-30 — First working end-to-end run</h3>
+      <p>
+        The full pipeline worked for the first time: search → gates → extraction → digest
+        → sheet. Fourteen papers found, ten kept, five written. The digest was readable but
+        noisy — which set off the next week of tightening.
+      </p>
+    </section>
+
+    <p class="back"><a href={BASE_URL + 'projects/research-radar'}>← Back to project</a></p>
+  </main>
+
+  <style>
+    .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+    .hero { text-align: center; margin: 3rem 0 3rem; }
+    .hero h1 { font-size: 2rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+    .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
+    .crumb a { text-decoration: none; }
+    .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none; font-size: 0.95rem; font-weight: 500;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: rgba(255, 255, 255, 0.18); }
+    section { margin: 3rem 0; }
+    section h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
+    section h3:first-child { margin-top: 0; }
+    code { background: rgba(255,255,255,0.08); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.9em; }
+    .back { margin-top: 4rem; opacity: 0.7; }
+  </style>
+</Layout>

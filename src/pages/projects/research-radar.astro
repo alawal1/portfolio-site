@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<Layout title="Research Radar">
+  <main class="project">
+    <p class="back-top"><a href={BASE_URL + 'projects'}>← All projects</a></p>
+    <header class="hero">
+      <h1>AI Research Radar</h1>
+      <p class="tagline">A weekly agent that monitors new AI governance research and produces a consultant-ready digest.</p>
+      <p class="meta">Python · OpenAI · OpenAlex · GitHub Actions · 2026</p>
+      <div class="actions">
+        <a class="btn" href={BASE_URL + 'projects/research-radar/learnings'}>Learnings</a>
+        <a class="btn" href={BASE_URL + 'projects/research-radar/design-decisions'}>Design decisions</a>
+        <a class="btn" href="https://github.com/alawal1/research-radar" target="_blank" rel="noopener">Code</a>
+        <a class="btn" href={BASE_URL + 'projects/research-radar/updates'}>Updates</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>The problem</h2>
+      <p>
+        Staying current on AI governance research is slow and manual. Papers are scattered
+        across arXiv, SSRN, Zenodo, and dozens of journals. A consultant tracking EU AI Act
+        compliance, auditing standards, or AI liability has to search the same databases
+        every week, read abstracts to judge relevance, and separate serious research from
+        opinion pieces and academic tangents.
+      </p>
+      <p>
+        This takes hours. Most people give up and miss the papers that matter.
+      </p>
+    </section>
+
+    <section>
+      <h2>What it does</h2>
+      <ol>
+        <li>Searches OpenAlex every Monday for AI governance papers published in the last 7 days</li>
+        <li>Filters each paper for relevance (Gate 1) and quality (Gate 2)</li>
+        <li>Scores papers on four feasibility criteria</li>
+        <li>Writes a digest covering everything that passed</li>
+        <li>Commits the digest to the repo</li>
+        <li>Saves the top 5 papers as a CSV for further analysis</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <p>
+        The agent groups 15 search keywords into 2–4 queries and runs them one at a time.
+        After each query, the LLM decides whether to keep searching or stop. Papers that
+        pass both gates are scored on four criteria — relevant, positioned against prior
+        work, practical, rigorous. The digest covers all of them. The top 5 by score are
+        saved as a CSV.
+      </p>
+      <p>
+        Facts come from the API; judgments come from the LLM. The agent never lets the LLM
+        touch metadata, and never lets the API judge quality. They meet only when a row is
+        written.
+      </p>
+    </section>
+
+    <p class="back"><a href={BASE_URL + 'projects'}>← All projects</a></p>
+  </main>
+
+  <style>
+    .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+    .hero { text-align: center; margin: 2rem 0 3rem; }
+    .hero h1 { font-size: 2.5rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+    .tagline { font-size: 1.15rem; opacity: 0.8; margin: 0 0 0.5rem; }
+    .meta { font-size: 0.9rem; opacity: 0.6; margin: 0 0 1.75rem; }
+    .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none; font-size: 0.95rem; font-weight: 500;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: rgba(255, 255, 255, 0.18); }
+    .releases-link { margin-top: 1rem; font-size: 0.9rem; opacity: 0.6; }
+    section { margin: 3rem 0; }
+    section h2 { font-size: 1.4rem; margin: 0 0 1rem; }
+    .back { margin-top: 4rem; opacity: 0.7; }
+    .back-top { font-size: 0.9rem; opacity: 0.6; margin: 2rem 0 0; }
+    .back-top a { text-decoration: none; }
+    .actions { margin-bottom: 1rem; }
+  </style>
+</Layout>

@@ -1,0 +1,73 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<Layout title="AI Research Radar — Learnings">
+  <main class="project">
+    <header class="hero">
+      <p class="crumb"><a href={BASE_URL + 'projects/research-radar'}>AI Research Radar</a></p>
+      <h1>Learnings</h1>
+      <nav class="actions">
+        <span class="btn current">Learnings</span>
+        <a class="btn" href={BASE_URL + 'projects/research-radar/design-decisions'}>Design decisions</a>
+        <a class="btn" href="https://github.com/alawal1/research-radar" target="_blank" rel="noopener">⌥ Code</a>
+      </nav>
+    </header>
+
+    <section>
+      <p>
+        The agent worked locally on the first try. It wrote to a Google Sheet, logged the
+        run, and produced a clean digest. Then I deployed it to GitHub Actions and it
+        broke — a <code>SpreadsheetNotFound: 404</code> that made no sense.
+      </p>
+      <p>
+        I checked everything. The sheet ID was correct. The service account email was
+        shared with the sheet as Editor. The base64-encoded credentials decoded to valid
+        JSON with the same project ID and the same service account. The API was enabled.
+        Locally, the exact same code with the exact same credentials worked. In GitHub
+        Actions, it returned 404.
+      </p>
+      <p>
+        I spent hours on this. I added debug steps to the workflow to print the length of
+        each secret, the hex dump of the sheet ID, the decoded service account email. Every
+        check came back identical to what I had locally. The 404 never went away.
+      </p>
+      <p>
+        Then I stopped debugging and changed the architecture instead. The cloud agent now
+        writes sheet rows to a CSV. A separate local script reads the CSV and appends it to
+        Google Sheets. The cloud never touches Sheets. The 404 is gone.
+      </p>
+      <p>
+        <strong>Lesson: when a bug appears in one environment and every visible variable
+        matches, stop looking for the difference and change the architecture so the
+        environment doesn't matter.</strong> "Route around it" is a legitimate engineering
+        decision, not a failure.
+      </p>
+    </section>
+
+    <p class="back"><a href={BASE_URL + 'projects/research-radar'}>← Back to project</a></p>
+  </main>
+
+  <style>
+    .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+    .hero { text-align: center; margin: 3rem 0 3rem; }
+    .hero h1 { font-size: 2rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+    .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
+    .crumb a { text-decoration: none; }
+    .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none; font-size: 0.95rem; font-weight: 500;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: rgba(255, 255, 255, 0.18); }
+    .btn.current { opacity: 0.45; cursor: default; pointer-events: none; }
+    section { margin: 3rem 0; }
+    code { background: rgba(255,255,255,0.08); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.9em; }
+    .back { margin-top: 4rem; opacity: 0.7; }
+  </style>
+</Layout>

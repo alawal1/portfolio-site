@@ -1,0 +1,89 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<Layout title="AI Research Radar — Design decisions">
+  <main class="project">
+    <header class="hero">
+      <p class="crumb"><a href={BASE_URL + 'projects/research-radar'}>AI Research Radar</a></p>
+      <h1>Design decisions</h1>
+      <nav class="actions">
+        <a class="btn" href={BASE_URL + 'projects/research-radar/learnings'}>Learnings</a>
+        <span class="btn current">Design decisions</span>
+        <a class="btn" href="https://github.com/alawal1/research-radar" target="_blank" rel="noopener">⌥ Code</a>
+      </nav>
+    </header>
+
+    <section>
+      <h3>Facts from the API, judgments from the LLM</h3>
+      <p>
+        Every paper has two layers: facts (title, authors, year, DOI, source) that come from
+        OpenAlex, and judgments (relevant? rigorous? practical?) that come from the LLM.
+        They meet only when a row is written. I made this split after an early test showed
+        the LLM inventing plausible metadata when the prompt format invited it. Separating
+        the two makes the pipeline explainable and eliminates a whole class of hallucination.
+      </p>
+
+      <h3>Two gates, strict by default</h3>
+      <p>
+        Before a paper enters the digest it passes Gate 1 (relevance) and Gate 2 (quality,
+        six checks). The prompts bias toward rejection: "when in doubt, mark false." A
+        clean digest beats a long one. I tightened Gate 1 twice during development — first
+        to reject cybersecurity papers with only a secondary governance angle, then to
+        reject academic and institutional AI governance. Each tightening cost a few
+        borderline papers, but the digest got better.
+      </p>
+
+      <h3>"Positioned against prior work" instead of "novel"</h3>
+      <p>
+        The fourth feasibility criterion started as "novelty." I renamed it. The agent can
+        verify whether a paper engages with prior work from its abstract. It cannot verify
+        novelty — that's a claim about the world, not about the text. Renaming the criterion
+        made it checkable, which made the score defensible.
+      </p>
+
+      <h3>No LangChain</h3>
+      <p>
+        The agent loop is written by hand. Two tools, one loop, five prompt files. A
+        framework would have hidden the parts I most wanted to demonstrate: how the agent
+        decides what to search next, when to stop, and why. Writing it by hand means every
+        decision is explainable line by line — which matters for a portfolio project.
+      </p>
+
+      <h3>Cloud and local split responsibilities</h3>
+      <p>
+        The cloud agent writes a CSV and a markdown digest. A local sync script pushes the
+        CSV to Google Sheets when I want it. The split exists because Google's Sheets API
+        returned 404 from GitHub Actions with credentials that worked locally. Rather than
+        keep fighting it, I moved Google writes to the environment where they work. Two
+        tools, two responsibilities, no environment-specific code.
+      </p>
+    </section>
+
+    <p class="back"><a href={BASE_URL + 'projects/research-radar'}>← Back to project</a></p>
+  </main>
+
+  <style>
+    .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
+    .hero { text-align: center; margin: 3rem 0 3rem; }
+    .hero h1 { font-size: 2rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+    .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
+    .crumb a { text-decoration: none; }
+    .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none; font-size: 0.95rem; font-weight: 500;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: rgba(255, 255, 255, 0.18); }
+    .btn.current { opacity: 0.45; cursor: default; pointer-events: none; }
+    section { margin: 3rem 0; }
+    section h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
+    section h3:first-child { margin-top: 0; }
+    .back { margin-top: 4rem; opacity: 0.7; }
+  </style>
+</Layout>
