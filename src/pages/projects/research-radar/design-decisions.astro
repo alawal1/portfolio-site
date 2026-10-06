@@ -64,26 +64,4 @@ const BASE_URL = import.meta.env.BASE_URL;
     <p class="back"><a href={BASE_URL + 'projects/research-radar'}>← Back to project</a></p>
   </main>
 
-  <style>
-    .project { max-width: 720px; margin: 0 auto; line-height: 1.65; }
-    .hero { text-align: center; margin: 3rem 0 3rem; }
-    .hero h1 { font-size: 2rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
-    .crumb { font-size: 0.9rem; opacity: 0.6; margin: 0 0 0.5rem; }
-    .crumb a { text-decoration: none; }
-    .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.55rem 1.1rem; border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      text-decoration: none; font-size: 0.95rem; font-weight: 500;
-      transition: background 0.15s ease;
-    }
-    .btn:hover { background: rgba(255, 255, 255, 0.18); }
-    .btn.current { opacity: 0.45; cursor: default; pointer-events: none; }
-    section { margin: 3rem 0; }
-    section h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
-    section h3:first-child { margin-top: 0; }
-    .back { margin-top: 4rem; opacity: 0.7; }
-  </style>
 </Layout>

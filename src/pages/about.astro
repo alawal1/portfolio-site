@@ -1,17 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const skillGroups = [
+  {
+    title: "Build with",
+    items: ["Python", "JavaScript", "Node.js", "Git", "VS Code", "GitHub Copilot", "Claude"],
+  },
+  {
+    title: "Work with",
+    items: ["Power BI", "Azure DevOps", "Jira", "Confluence", "Agile / Scrum"],
+  },
+  {
+    title: "Currently advancing in",
+    items: ["SQL", "Tableau"],
+  },
+];
 ---
 <Layout title="About">
   <h1>About</h1>
   <p>
-    I'm Alawal, a developer building modern web experiences. This is a placeholder
-    paragraph — replace it with your real bio, what you work on, and what you're
-    interested in.
+    I'm Amina Lawal. I love data, AI and communication.
+    My path has no straight line, but it has a pattern: wherever I've worked, I've ended up in the space between the people who know a thing and the people who need it.
+    I started in radio, managing live broadcasts, then transitioned to IT and data.
+    The thread through my work has been taking something complicated and making it understandable for the people who have to act on it.
+    I'm looking for an entry-level role where I can work between technical and non-technical people.
+    I'm looking for a role where I can work at the intersection of AI, data, and communication — somewhere that values clear reasoning, thorough documentation, and picking the right tool for the job, even when that tool isn't (all) AI.
   </p>
-  <h2>Skills</h2>
-  <ul>
-    <li>JavaScript / TypeScript</li>
-    <li>Astro, React, or whatever you actually use</li>
-    <li>Node.js</li>
-  </ul>
+
+  <section aria-labelledby="skills-heading">
+    <h2 id="skills-heading">What I work with</h2>
+    {skillGroups.map((group) => (
+      <div>
+        <h3>{group.title}</h3>
+        <ul>
+          {group.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
 </Layout>

@@ -1,7 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { work, education } from '../data/cv';
 ---
 <Layout title="Home">
   <h1>Amina Lawal</h1>
-  <p>Building bold digital experiences.</p>
+
+  <section class="about">
+    <div>
+      <h2>About Me</h2>
+      <!-- <p>A few sentences about who you are, what you do, and what you're looking for.</p> -->
+               <p>Live radio, computational linguistics, sustainability reporting, and guiding tourists around the Stockholm archipelago. My path looks scattered until you notice I've always been the one explaining one world to another. </p>
+</div>
+    <img class="photo" src={`${import.meta.env.BASE_URL}bild1a.jpg`} alt="Photo of Amina Lawal" />
+  </section>
+
+  <section>
+    <h2>Work Experience</h2>
+    <ul class="cv">
+      {work.map((e) => (
+        <li>
+          <div class="entry-head">
+            <strong>{e.role}</strong>
+            <span class="date">{e.dates}</span>
+          </div>
+          <p class="org">{e.org}</p>
+          <p>{e.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <ul class="cv">
+      {education.map((e) => (
+        <li><span class="date">{e.dates}</span> <strong>{e.role}</strong> · {e.org}</li>
+      ))}
+    </ul>
+  </section>
+
+  <p><a href={`${import.meta.env.BASE_URL}cv/`}>Full CV →</a></p>
 </Layout>

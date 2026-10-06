@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { work, education, skills, voluntary } from '../data/cv';
+
+const sections = [
+  { title: 'Work Experience', entries: work },
+  { title: 'Education', entries: education },
+];
+---
+<Layout title="CV">
+  <h1>CV</h1>
+
+  {sections.map((s) => (
+    <section>
+      <h2>{s.title}</h2>
+      <ul class="cv">
+        {s.entries.map((e) => (
+          <li>
+            <p class="date">{e.dates}</p>
+            <h3>{e.role}</h3>
+            <p>{e.org}</p>
+            <ul>{e.points.map((p) => <li>{p}</li>)}</ul>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <section>
+    <h2>Skills &amp; Languages</h2>
+    <ul class="cv">
+      {skills.map((s) => <li><strong>{s.label}:</strong> {s.items}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Voluntary Activities</h2>
+    <ul class="cv">
+      {voluntary.map((e) => (
+        <li>
+          <p class="date">{e.dates}</p>
+          <h3>{e.role}</h3>
+          <p>{e.org}</p>
+          <ul>{e.points.map((p) => <li>{p}</li>)}</ul>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>

@@ -24,6 +24,7 @@ const projects = [
   <ul class="projects">
     {projects.map((project) => (
       <li>
+        <a href={project.url} tabindex="-1" aria-hidden="true"><div class="thumb"></div></a>
         <h2><a href={project.url}>{project.title}</a></h2>
         <p>{project.description}</p>
       </li>
