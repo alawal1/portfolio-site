@@ -1,0 +1,50 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const updates = [
+  {
+    date: '2026-10-03',
+    title: 'Pre-filtered search link for one company in Germany',
+    body: 'The site\'s keyword search didn\'t filter, so I replaced its link in companies.md with a pre-filtered one (Frankfurt + Cologne, students/graduates).',
+  },
+  {
+    date: '2026-10-03',
+    title: 'Company list down to 10',
+    body: 'Dropped one company whose Workday careers site couldn\'t be read, and removed it from companies.md and the playbook.',
+  },
+  {
+    date: '2026-10-03',
+    title: 'Fit rules moved into the playbook',
+    body: 'The job-fit agent can\'t run from Cowork (no internet in the local sandbox, and the OpenAI key stays local), so its rules now live in files/fit-rules.md and the judging step points there.',
+  },
+  {
+    date: '2026-10-03',
+    title: 'First run, first digest',
+    body: 'The first digest was saved, together with a decision log for every job kept or dropped.',
+  },
+];
+---
+<Layout title="Job Alert — Updates">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/job-alert`}>Job Alert</a></p>
+      <h1>Updates</h1>
+
+      <nav class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/learnings`} class="btn">Learnings</a>
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/design-decisions`} class="btn">Design decisions</a>
+        <!-- [TODO: Amina – the agent folder isn't a git repo and has no public link yet; restore this button when it does] <a href="https://github.com/alawal1/job-alert" class="btn">⌥ Code</a> -->
+      </nav>
+    </header>
+
+    <section>
+      {updates.map((u) => (
+        <div class="update">
+          <p class="date">{u.date}</p>
+          <h3>{u.title}</h3>
+          <p>{u.body}</p>
+        </div>
+      ))}
+    </section>
+  </article>
+</Layout>

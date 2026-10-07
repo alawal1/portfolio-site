@@ -1,0 +1,42 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Job Alert — Weekly Job Check for 10 Companies">
+  <article class="project">
+    <p class="back-top"><a href={`${import.meta.env.BASE_URL}projects`}>← All projects</a></p>
+    <header class="hero">
+      <h1>Job Alert</h1>
+      <p class="tagline">A weekly playbook that checks my 10 target companies for new entry-level jobs and tells me which ones to apply to.</p>
+      <p class="meta">Claude playbook (skill) · Cowork · weekly scheduled task · 2026</p>
+
+      <div class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/learnings`} class="btn">Learnings</a>
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/design-decisions`} class="btn">Design decisions</a>
+        <a href="https://github.com/alawal1/job-alert" class="btn">Code</a>
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/updates`} class="btn">Updates</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>The problem</h2>
+      <p>I have a short list of companies I want to work for, in Sweden and in Germany. Checking each careers page every week, filtering by place and level, then opening every posting to see whether it asks for Swedish or years of experience is slow and repetitive — and in the first run, most of what got past the titles didn't fit once the posting was opened.</p>
+    </section>
+
+    <section>
+      <h2>What it does</h2>
+      <ol>
+        <li><strong>Checks each company's careers page</strong> using a saved search link per country, with job boards and LinkedIn only as a backup when the page fails.</li>
+        <li><strong>Applies hard rules from the posting itself</strong> — place, required Swedish, and 2+ years of experience — before judging fit.</li>
+        <li><strong>Judges fit</strong> against my CV with the job-fit agent's rules, returning apply, borderline or skip with a confidence level and reasons.</li>
+        <li><strong>Writes a digest and a short summary</strong>: a warm, newsletter-style digest saved to my Mac, and a summary of about 10 lines that reads on a phone.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <p>It isn't custom code. It's a playbook — a written process that a general AI follows on a weekly schedule, usually with nobody watching. Its memory is a handful of plain files: the working search link and quirks for each company, every job already shown, and the fit rules. Each run saves a dated digest, and corrections go into a dated notes log. The rules decide <em>what gets dropped</em>; the AI judges <em>what's left</em>.</p>
+    </section>
+
+    <p class="back"><a href={`${import.meta.env.BASE_URL}projects`}>← Back to all projects</a></p>
+  </article>
+</Layout>

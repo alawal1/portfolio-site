@@ -1,0 +1,46 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Job Alert — Design Decisions">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/job-alert`}>Job Alert</a></p>
+      <h1>Design decisions</h1>
+
+      <nav class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/learnings`} class="btn">Learnings</a>
+        <span class="btn current">Design decisions</span>
+        <a href="https://github.com/alawal1/job-alert" class="btn">Code</a>
+      </nav>
+    </header>
+
+    <section>
+      <h3>A fixed list of 10 companies, not an open search.</h3>
+      <p>Why: I have a short list of companies I want to work for, in Sweden and in Germany. Checking each careers page every week, filtering by place and level, then opening every posting to see whether it asks for Swedish or years of experience is slow and repetitive — and in the first run, most of what got past the titles didn't fit once the posting was opened.</p>
+
+      <h3>Careers page first; job boards and LinkedIn only as backup.</h3>
+      <p>Why: Job boards and LinkedIn often block automatic visits and may not allow them in their rules, so they can't be the main source — and when they are used, the playbook reads only what is openly shown, with no logins and no getting around blocks.</p>
+
+      <h3>No automatic applying.</h3>
+      <p>Why: I want to maintain control over my job applications and ensure I only apply to positions that truly match my qualifications and interests. This approach allows me to review each opportunity and make decisions about which roles to pursue (human in the loop).</p>
+
+      <h3>Hard drop rules: Swedish required, or 2+ years of experience.</h3>
+      <p>Why: these are checked in the posting before any fit judgment, so a job that fails them never gets a verdict; softer cases (1 year, or experience without a number) stay in with low confidence. The max. 1 year threshold is based on my experience and the typical requirements for entry-level positions in the tech industry.</p>
+
+      <h3>Ranking: apply above borderline, then confidence, then place.</h3>
+      <p>Why: the digest exists to tell me which jobs to apply to, so apply verdicts lead, and the place order follows my preference. </p>
+
+      <h3>A warm newsletter digest, not a table.</h3>
+      <p>Why: every job needs a summary, a reason it fits, the gaps and a link — vague reasoning or a bare list of rows doesn't tell me whether to apply. Not chosen: a table or database view; only the list of companies checked at the end is a table.</p>
+
+      <h3>A final summary of about 10 lines that reads on a phone.</h3>
+      <p>Why: the last message of the run is what reaches me as a notification or email, so it carries only the apply jobs, the borderline ones, any company that couldn't be checked, and where the full digest is saved.</p>
+
+      <h3>No questions during unattended runs.</h3>
+      <p>Why: the weekly run usually happens with nobody watching, so the playbook makes the most reasonable choice and logs it under "Notes from this run"; it only stops if the playbook folder can't be read at all, and says so.</p>
+
+      <h3>A plain file layout for memory.</h3>
+      <p>Why: each file has one job — companies, shown jobs, fit rules — listed in <code>files/INDEX.md</code>, with one digest per run and dated corrections in <code>notes.md</code>; the playbook reads them instead of rebuilding them from memory, and fixes go into the files, not the chat.</p>
+    </section>
+  </article>
+</Layout>

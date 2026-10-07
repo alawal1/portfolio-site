@@ -1,0 +1,35 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout title="Job Alert — Learnings">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/job-alert`}>Job Alert</a></p>
+      <h1>Learnings</h1>
+
+      <nav class="actions">
+        <span class="btn current">Learnings</span>
+        <a href={`${import.meta.env.BASE_URL}projects/job-alert/design-decisions`} class="btn">Design decisions</a>
+        <a href="https://github.com/alawal1/job-alert" class="btn">Code</a>
+      </nav>
+    </header>
+
+    <section>
+      <p>The plan was for the playbook to hand every posting to my job-fit agent. On the first run, on 3 October 2026, that step failed. The playbook runs in a Cowork session, the local sandbox there has no internet access, and the agent's OpenAI key stays on my Mac. The agent simply couldn't run.</p>
+
+      <p>The fix wasn't to fight the sandbox. I moved the agent's hard filters and verdict rules into the playbook itself, in <code>files/fit-rules.md</code>, and pointed the judging step at that file. The first digest said so openly: the verdicts came from the agent's own rules applied by hand, so the confidence levels were a careful estimate, not the agent's output.</p>
+
+      <p><strong>Careers pages don't all want to be read.</strong> One company's Workday careers site couldn't be read automatically, so I dropped that company from the list. Another careers site wouldn't load at all, and only a job-board backup worked. Several others only show their jobs in the built-in browser, because the jobs load with JavaScript. Every one of those quirks now lives in <code>files/companies.md</code>, so the next run doesn't have to rediscover them.</p>
+
+      <p><strong>The title isn't the job.</strong> A "junior" title has come with 2+ years of experience in the requirements, and a careers page filter has shown a job in the wrong country. So the playbook now reads the posting itself: the years rule wins over the title, and the place written in the posting wins over the page filter. In the first run, several postings were dropped only after they were opened. [TODO: Amina – notes.md and the digest don't record when the "junior + 2 years" and wrong-country cases first happened; add the run or date if you want a concrete example here]</p>
+
+      <p><strong>Language decides before fit does.</strong> In the first run, most of the big-firm graduate programmes in Sweden required fluent Swedish, so they were dropped before any fit judgment. That pattern was worth more than any single verdict.</p>
+
+      <p><strong>Memory has to live in files, not in the chat.</strong> <code>files/companies.md</code> keeps the working search link for each company, and the playbook is told to fix a broken link there so the next run starts from the fix. <code>files/shown-jobs.md</code> lists every job already shown, so the same job doesn't come back. [TODO: Amina – only one run is logged so far; there's no evidence yet of companies.md correcting itself between runs or of shown-jobs.md stopping a repeat]</p>
+
+      <p><strong>Writing for nobody watching.</strong> The weekly run usually happens without me. That changed how the playbook is written: it never stops to ask, it makes the most reasonable choice and notes it in the digest, and it never leaves a company out silently.</p>
+
+      <p><strong>The lesson:</strong> a playbook that runs unattended is only as good as what it writes down — the rules it judges by, the quirks of each site, and the choices it made on its own.</p>
+    </section>
+  </article>
+</Layout>

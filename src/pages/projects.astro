@@ -2,11 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 
 const projects = [
-  {
-    title: 'Chinook Music Store — Genre Revenue Analysis',
-    description: 'SQL + Tableau analysis of 25 genres to identify which deserve investment and which are dead weight.',
-    url: `${import.meta.env.BASE_URL}projects/chinook`,
-  },
+  // {
+  //   title: 'Chinook Music Store — Genre Revenue Analysis',
+  //   description: 'SQL + Tableau analysis of 25 genres to identify which deserve investment and which are dead weight.',
+  //   url: `${import.meta.env.BASE_URL}projects/chinook`,
+  // },
   {
     title: 'Job Fit Agent',
     description: 'A Python agent that reads job postings and returns apply / borderline / skip verdicts using OpenAI tool-calling',
@@ -14,9 +14,14 @@ const projects = [
   },
   {
   title: 'Research Radar',
-  description: 'A weekly agent that monitors new AI governance research and produces a consultant-ready digest.',
+  description: 'A weekly agent that monitors new AI governance research and produces an overview of new research.',
   url: `${import.meta.env.BASE_URL}projects/research-radar`,
-}
+},
+  {
+    title: 'Job Alert',
+    description: 'A weekly scheduled playbook that checks my 10 target companies for new entry-level jobs, judges each one against my CV and saves a digest on my Mac',
+    url: `${import.meta.env.BASE_URL}projects/job-alert`,
+  }
 ];
 ---
 <Layout title="Projects">

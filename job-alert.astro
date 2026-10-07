@@ -1,0 +1,42 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Job Fit Agent — Automated Job Posting Triage">
+  <article class="project">
+    <p class="back-top"><a href={`${import.meta.env.BASE_URL}projects`}>← All projects</a></p>
+    <header class="hero">
+      <h1>Job Fit Agent</h1>
+      <p class="tagline">An automated triage system for job postings — decides apply, borderline, or skip.</p>
+      <p class="meta">Python · FastAPI · OpenAI gpt-4o · 2026</p>
+
+      <div class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/learnings`} class="btn">Learnings</a>
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/design-decisions`} class="btn">Design decisions</a>
+        <!-- <a href="https://github.com/alawal1/job-fit-agent" class="btn">⌥ Code</a> -->
+        <a href={`${import.meta.env.BASE_URL}projects/job-fit-agent/updates`} class="btn">Updates</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>The problem</h2>
+      <p>Job hunting at scale means reading dozens of postings, most of which are obvious mismatches. The expensive part isn't finding postings — it's the 10 minutes spent reading each one only to realize the seniority is wrong or the tooling is a hard requirement you don't meet.</p>
+    </section>
+
+    <section>
+      <h2>What it does</h2>
+      <ol>
+        <li><strong>Fetches and extracts</strong> the posting's triage-relevant signals — title, location, languages, seniority, and required vs. preferred skills.</li>
+        <li><strong>Applies hard filters</strong> (language, seniority) before spending any judgment on soft fit.</li>
+        <li><strong>Assesses fit</strong> against a structured candidate profile, returning a verdict with confidence and reasons.</li>
+        <li><strong>Suggests CV improvements</strong> tailored to the posting when the verdict is apply or borderline.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <p>The agent runs a custom OpenAI tool-calling loop (no LangChain). Each tool — fetch, extract, filter, assess, suggest — is a Python function with a strict JSON schema. The orchestration enforces a required sequence: filters must pass before assessment runs, and assessment must run before CV suggestions. The LLM decides <em>what to do next</em>; deterministic code decides <em>what is allowed</em>.</p>
+    </section>
+
+    <p class="back"><a href={`${import.meta.env.BASE_URL}projects`}>← Back to all projects</a></p>
+  </article>
+</Layout>
