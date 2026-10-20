@@ -1,0 +1,36 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const updates = [
+  {
+    title: '',
+    body: ''
+}
+
+];
+
+---
+<Layout title="Work Companion — Updates">
+  <article class="project">
+    <header class="hero">
+      <p class="crumb"><a href={`${import.meta.env.BASE_URL}projects/work-companion`}>Work Companion</a></p>
+      <h1>Updates</h1>
+
+      <nav class="actions">
+        <a href={`${import.meta.env.BASE_URL}projects/work-companion/learnings`} class="btn">Learnings</a>
+        <a href={`${import.meta.env.BASE_URL}projects/work-companion/design-decisions`} class="btn">Design decisions</a>
+        <a href="https://github.com/alawal1/work-companion" class="btn">Code</a>
+      </nav>
+    </header>
+
+    <section>
+      {updates.map((u) => (
+        <div class="update">
+          <p class="date">{u.date}</p>
+          <h3>{u.title}</h3>
+          <p>{u.body}</p>
+        </div>
+      ))}
+    </section>
+  </article>
+</Layout>

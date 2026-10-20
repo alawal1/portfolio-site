@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<Layout title="Work Companion ">
+  <main class="project">
+    <p class="back-top"><a href={BASE_URL + 'projects'}>← All projects</a></p>
+    <header class="hero">
+      <h1>Work Companion</h1>
+      <p class="tagline">An AI assistant for streamlining your daily workflow.</p>
+      <p class="meta">Python · OpenAI · GitHub Actions · 2026</p>
+      <div class="actions">
+        <a class="btn" href={BASE_URL + 'projects/work-companion/learnings'}>Learnings</a>
+        <a class="btn" href={BASE_URL + 'projects/work-companion/design-decisions'}>Design decisions</a>
+        <!-- <a class="btn" href="https://github.com/alawal1/work-companion" target="_blank" rel="noopener">Code</a> -->
+        <a class="btn" href={BASE_URL + 'projects/work-companion/updates'}>Updates</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>The problem</h2>
+      <p>
+        I work a few sessions a week, across several projects. I always plan everything out in Notion, but can't account for unforeseen things. Keeping up with the log is also time-consuming.  
+        If I haven't worked on a project in a while, I also forget what I was working on. I also have a lot of unfinished projects. 
+        My Notion Project Tracker was only as good as my discipline in updating it, and that didn’t hold the way I want it.
+      </p>
+    </section>
+
+    <section>
+      <h2>What it does</h2>
+        <p>Work Companion is an agent setup: Claude acting as an agent on my Notion tracker, following a playbook, which is packaged as a skill.
+           Claude follows the playbook and uses its Notion and git tools to carry out the steps. It’s agentic while it runs, but I start it manually. It has no scheduling or autonomy</p>
+        <p>“Wrap up” at the end of a session:</p>
+        <ol>
+            <li>Collects what I did from the chat and, if my projects folder is linked, from git commit messages. It also counts small, unplanned and admin work.</li>
+            <li>Matches each item to a project, then updates my tasks: finished work becomes Done, unfinished work becomes In Progress, and new to-dos go to the Backlog.</li>
+            <li>Sets one concrete next step per project.</li>
+            <li>Appends a dated entry to each project’s Build Log.</li>
+            <li>Adds a learning only when there is something worth remembering, and links it to a skill.</li>
+            <li>Writes a Daily Log entry with a clear starting point for next time.</li>
+        </ol>
+        <p>“Where was I?” at the start of a session:</p>
+        <ol>
+            <li>Summarises last time, what’s in progress, what’s on deck, and the backlog size per project.</li>
+            <li>Gives one recommendation (one project, one task, one-line reason). It prefers finishing something already in progress over starting something new.</li>
+            <li>Is read-only and changes nothing.</li>
+        </ol>
+    </section>
+
+    <section>
+      <h2>How it's built</h2>
+      <ol>
+        <li>The playbook: the instructions I wrote for it: where it may read and write, the steps in order, rules for priorities and learnings, and limits </li>
+        <li>The playbook is saved as a SKILL.md, so Claude loads it whenever I use the trigger words. There are no scripts, because the work is judgment about what counts as work, not computation.</li> 
+        <li>Notion has five linked databases: Projects, Tasks, Learnings, Skills and Daily Log.</li>
+        <li>Anything it reads from files, commits or pages is treated as data, not instructions.</li>
+        <li>Every record it creates is marked “Added by: Agent”, and every learning says whether I did the work or did it with Claude.</li>
+      </ol>
+    </section>
+
+    <p class="back"><a href={BASE_URL + 'projects'}>← All projects</a></p>
+  </main>
+
+</Layout>
