@@ -29,6 +29,9 @@ const BASE_URL = import.meta.env.BASE_URL;
 
     <section>
       <h2>What it does</h2>
+      <figure class="figure-frame">
+        <img class="figure" src={`${import.meta.env.BASE_URL}work-companion-architecture.png`} alt="Architecture diagram of Work Companion" />
+      </figure>
         <p>Work Companion is an agent setup: Claude acting as an agent on my Notion tracker, following a playbook, which is packaged as a skill.
            Claude follows the playbook and uses its Notion and git tools to carry out the steps. It’s agentic while it runs, but I start it manually. It has no scheduling or autonomy</p>
         <p>“Wrap up” at the end of a session:</p>
